@@ -1,3 +1,4 @@
+#snake look
 import turtle
 import random
 turtle.tracer(1,0)
@@ -12,7 +13,7 @@ snake=turtle.clone()
 snake.shape("square")
 turtle.hideturtle()
 
-
+#stamp
 snake.penup()
 def new_stamp():
     snake_pos = snake.pos() #Get snake’s position
