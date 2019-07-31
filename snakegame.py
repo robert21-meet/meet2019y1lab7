@@ -14,6 +14,8 @@ snake.shape("square")
 turtle.hideturtle()
 snake.color("blue")
 
+    
+
 snake.direction = "Up"
 UP_EDGE = 250
 DOWN_EDGE = -250
@@ -65,25 +67,35 @@ def noth():
     
 
 def up():
-    snake.direction="Up"
-    print("you pressed the up key!")
+    if snake.direction != "Down":
+        snake.direction="Up"
+        print("you pressed the up key!")
+    else:
+        print("Snake is unable to go down")
 turtle.onkeypress(up,"w")
 
 def down():
-    snake.direction="Down"
-    print("you pressed the down key!")
+    if snake.direction != "Up":
+        snake.direction="Down"
+        print("you pressed the down key!")
+    else:
+        print("Snake is unable to go up")
 turtle.onkeypress(down,"s")
 
 def left():
-    if snake.direction=="Right":
-        pass
-    snake.direction="Left"
-    print("you pressed the left key!")
+    if snake.direction != "Right":
+        snake.direction="Left"
+        print("you pressed the left key!")
+    else:
+        print("Snake is unable to go right")
 turtle.onkeypress(left,"a")
 
 def right():
-    snake.direction="Right"
-    print("you pressed the right key!")
+    if snake.direction != "Left":
+        snake.direction="Right"
+        print("you pressed the right key!")
+    else:
+        print("Snake is unable to go left")
 turtle.onkeypress(right,"d")
 
 
@@ -135,6 +147,9 @@ def move_snake():
     new_pos = snake.pos()
     new_x_pos = new_pos[0]
     new_y_pos = new_pos[1]
+#snake kills itself
+    if new_pos in pos_list:
+        quit()
 #snake out of border
     if new_x_pos >= RIGHT_EDGE:
         print("You hit the right edge! Game over!")
@@ -155,7 +170,6 @@ def move_snake():
         
 makefood()
 move_snake()
-
 
 
 turtle.mainloop()
