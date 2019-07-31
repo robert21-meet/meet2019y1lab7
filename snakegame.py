@@ -1,3 +1,5 @@
+moves = []
+full = []
 #snake look
 import turtle
 import random
@@ -9,16 +11,26 @@ pos_list=[]
 stamp_list=[]
 food_pos = []
 food_stamps=[]
+gfuel_pos=[]
+gfuel_stamps=[]
 snake=turtle.clone()
 snake.shape("square")
 turtle.hideturtle()
 snake.color("blue")
+#pop up window
 
-    
+#title
+title=turtle.clone()
+title.penup()
+title.goto(10,300)
+title.color('red')
+style = ('Courier', 30, 'italic')
+title.write('!SNAKE GAME!', font=style, align='center')
+turtle.hideturtle()
 
 snake.direction = "Up"
-UP_EDGE = 250
-DOWN_EDGE = -250
+UP_EDGE = 260
+DOWN_EDGE = -260
 RIGHT_EDGE = 400
 LEFT_EDGE = -400
 SIZE_X=400
@@ -27,6 +39,8 @@ SIZE_Y=250
 #border
 border=turtle.clone()
 turtle.penup()
+turtle.color("Dark Green")
+turtle.pensize(20)
 turtle.goto(LEFT_EDGE,UP_EDGE)
 turtle.pendown()
 turtle.goto(RIGHT_EDGE,UP_EDGE)
@@ -37,6 +51,10 @@ turtle.goto(LEFT_EDGE,UP_EDGE)
 turtle.register_shape("snakefood-1.gif")
 food = turtle.clone()
 food.shape("snakefood-1.gif")
+#gfuel
+turtle.register_shape("pewdswithgfuel.gif")
+gfuel=turtle.clone()
+gfuel.shape("pewdswithgfuel.gif")
 
 
 
@@ -112,6 +130,20 @@ def makefood():
     food.goto(food_x, food_y)
     food_stamps.append(food.stamp())
     food_pos.append(food.pos())
+
+def makegfuel():
+    min_x=-int(SIZE_X/2/squaresize)+1
+    max_x=int(SIZE_X/2/squaresize)-1
+    min_y=-int(SIZE_Y/2/squaresize)+1
+    max_y=int(SIZE_Y/2/squaresize)-1
+    gfuel.penup()
+    gfuel_x = random.randint(min_x,max_x)*squaresize
+    gfuel_y = random.randint(min_y,max_y)*squaresize
+    gfuel.goto(gfuel_x, gfuel_y)
+    gfuel_stamps.append(gfuel.stamp())
+    gfuel_pos.append(gfuel.pos())
+
+    
     
     
 
@@ -121,6 +153,7 @@ def makefood():
 
 
 def move_snake():
+    moves.append("yo")
     x_pos=snake.pos()[0] 
     y_pos=snake.pos()[1]
     tx=snake.xcor()
@@ -132,9 +165,31 @@ def move_snake():
             food_pos.pop(food_index)
             food_stamps.pop(food_index)
             print("You have eaten the food!")
-            makefood()
+            if len(moves) % 5 == 0:
+                makegfuel()
+            else:
+                makefood()
             new_stamp()
+    def eatgfuel():
+        if snake.pos() in gfuel_pos:
+            gfuel_index=gfuel_pos.index(snake.pos())
+            gfuel.clearstamp(gfuel_stamps[gfuel_index])
+            gfuel_pos.pop(gfuel_index)
+            gfuel_stamps.pop(gfuel_index)
+            print("You have eaten the food!")
+            if len(moves) % 5 == 0:
+                makegfuel()
+            else:
+                makefood()
+            new_stamp()
+            new_stamp()
+            new_stamp()
+        full.append(1)
+        full.append(1)
+        full.append(1)
+            
     eatfood()
+    eatgfuel()
     
     if snake.direction=="Up":
         snake.goto(x_pos,y_pos+20)
@@ -165,6 +220,10 @@ def move_snake():
         quit()
     new_stamp()
     remove_stamp()
+##    if len(full) > 1:
+##        full.pop(0)
+##        turtle.ontimer(move_snake,timestep)
+##    else:
     turtle.ontimer(move_snake,timestep)
 
         
