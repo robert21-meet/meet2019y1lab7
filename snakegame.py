@@ -3,6 +3,7 @@ full = []
 #snake look
 import turtle
 import random
+import time
 turtle.tracer(1,0)
 squaresize=20
 startlength=6
@@ -17,7 +18,15 @@ snake=turtle.clone()
 snake.shape("square")
 turtle.hideturtle()
 snake.color("blue")
+
+#tiles
+tile = turtle.clone()
+tile.penup()
+tile.goto(-380,220)
+
+
 #pop up window
+
 
 #title
 title=turtle.clone()
